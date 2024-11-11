@@ -25,6 +25,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	//IAdaptadorInterface* proyectilExterno; // 3.-puntero para 
+	UProjectileMovementComponent* ProjectileMovement; // Asegúrate de que esta línea esté presente
 
 public:	
 	// Called every frame

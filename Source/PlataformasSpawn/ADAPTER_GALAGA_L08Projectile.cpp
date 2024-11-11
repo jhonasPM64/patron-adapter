@@ -10,7 +10,7 @@
 AADAPTER_GALAGA_L08Projectile::AADAPTER_GALAGA_L08Projectile()
 {
 	// Static reference to the mesh to use for the projectile
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> ProjectileMeshAsset(TEXT("/Game/TwinStick/Meshes/TwinStickProjectile.TwinStickProjectile"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> ProjectileMeshAsset(TEXT("StaticMesh'/Game/Geometry/BarrilMesh/TwinStickProjectile.TwinStickProjectile'"));
 
 	// Create mesh component for the projectile sphere
 	ProjectileMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ProjectileMesh0"));
@@ -42,4 +42,17 @@ void AADAPTER_GALAGA_L08Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* 
 	}
 
 	Destroy();
+}
+
+void AADAPTER_GALAGA_L08Projectile::Initialize(const FVector& Direction)
+{
+	if (ProjectileMovement)
+	{
+		ProjectileMovement->Velocity = Direction * ProjectileMovement->InitialSpeed;
+	}
+}
+void AADAPTER_GALAGA_L08Projectile::locationProyectil(FVector locacion, FRotator rotacion, FVector direccion)
+{
+	AADAPTER_GALAGA_L08Projectile* SpawnedProjectile1 = GetWorld()->SpawnActor<AADAPTER_GALAGA_L08Projectile>(AADAPTER_GALAGA_L08Projectile::StaticClass(), locacion, rotacion);
+	SpawnedProjectile1->Initialize(direccion);
 }

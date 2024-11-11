@@ -4,6 +4,7 @@
 #include "ProyectilAdaptado.h"
 #include "Engine/World.h"
 
+
 // Sets default values
 AProyectilAdaptado::AProyectilAdaptado()
 {
@@ -19,7 +20,7 @@ AProyectilAdaptado::AProyectilAdaptado()
 void AProyectilAdaptado::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
@@ -32,7 +33,6 @@ void AProyectilAdaptado::Tick(float DeltaTime)
 void AProyectilAdaptado::Cargar()
 {
 	ProyectilExterno->SetActorLocation(GetActorLocation()); 
-	UE_LOG(LogTemp, Warning, TEXT("Proyectil adaptado ha sido activado"));
 }
 
 void AProyectilAdaptado::SetVelocidad(float NuevaVelocidad)
@@ -46,9 +46,9 @@ void AProyectilAdaptado::SetVelocidad(float NuevaVelocidad)
 
 void AProyectilAdaptado::Disparar(FVector Direccion)
 {
-	if (ProyectilExterno)
+	if (ProjectileMovement)
 	{
-		ProyectilExterno->SetActorLocation(GetActorLocation());
+		// Establece la velocidad del proyectil
 		ProyectilExterno->GetProjectileMovement()->Velocity = Direccion * ProyectilExterno->GetProjectileMovement()->InitialSpeed;
 	}
 }

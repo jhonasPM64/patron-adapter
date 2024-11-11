@@ -45,9 +45,10 @@ public:
 private:
 	//7.- actualizamos la parte para que el personaje dispare
 	UPROPERTY(EditDefaultsOnly, Category = "Proyectil")
-	TSubclassOf<AADAPTER_GALAGA_L08Projectile> ClaseProyectil;
+	//TSubclassOf<AADAPTER_GALAGA_L08Projectile> ClaseProyectil;
 
 	// End of APawn interface
+	UClass* ClaseProyectil; // Puntero a la clase del proyectil
 
 public:
 	APlataformasSpawnCharacter();

@@ -6,10 +6,12 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/ProjectileMovementComponent.h" 
 #include "proyectil.h"
 #include "Engine/World.h"
 #include "Engine/Engine.h"
 #include "UObject/ConstructorHelpers.h"
+#include "ProyectilAdaptado.h"
 
 APlataformasSpawnCharacter::APlataformasSpawnCharacter()
 {
@@ -27,7 +29,7 @@ APlataformasSpawnCharacter::APlataformasSpawnCharacter()
     CameraBoom->SetupAttachment(RootComponent);
     CameraBoom->SetUsingAbsoluteRotation(true); // Rotation of the character should not affect rotation of boom
     CameraBoom->bDoCollisionTest = false;
-    CameraBoom->TargetArmLength = 1200.f;
+    CameraBoom->TargetArmLength = 2000.f;
     CameraBoom->SocketOffset = FVector(0.f, 0.f, 75.f);
     CameraBoom->SetRelativeRotation(FRotator(0.f, 180.f, 0.f));
 
@@ -47,11 +49,8 @@ APlataformasSpawnCharacter::APlataformasSpawnCharacter()
     GetCharacterMovement()->MaxFlySpeed = 600.f;
 
 
-    static ConstructorHelpers::FClassFinder<AADAPTER_GALAGA_L08Projectile> ProyectilClassFinder(TEXT("Class'/Script/YourGameModuleName.ADAPTER_GALAGA_L08Projectile'"));
-    if (ProyectilClassFinder.Succeeded())//8.- en esta parte tambien
-    {
-        ClaseProyectil = ProyectilClassFinder.Class;
-    }
+    ClaseProyectil = AProyectilAdaptado::StaticClass(); // Asignar la clase del proyectil
+ 
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -84,32 +83,26 @@ void APlataformasSpawnCharacter::TouchStopped(const ETouchIndex::Type FingerInde
 {
     StopJumping();
 }
-/*
-void APlataformasSpawnCharacter::PostInitializeComponents()
-{
-   Super::PostInitializeComponents();
-   SetActorLocation(FVector(1180.f, -1700.f, 3600.f));
-}
-*/
+
 void APlataformasSpawnCharacter::DispararProyectil()
 {
-    if (ClaseProyectil)//deberia pero no aparece o no se llama correctamente
+    if (ClaseProyectil) 
     {
-        FVector SpawnLocation = GetActorLocation() + GetActorForwardVector() * 250.f;
-        FRotator SpawnRotation = GetActorRotation();
+        FVector SpawnLocation = GetActorLocation() + GetActorForwardVector() * 10.f; 
+        FRotator SpawnRotation = GetActorRotation(); 
 
         UWorld* World = GetWorld();
-        if (World)
+        if (World!=nullptr)
         {
-            AADAPTER_GALAGA_L08Projectile* Projectile = World->SpawnActor<AADAPTER_GALAGA_L08Projectile>(ClaseProyectil, SpawnLocation, SpawnRotation);
-            if (Projectile)
+
+            AProyectilAdaptado* ProyectoAdaptado = World->SpawnActor<AProyectilAdaptado>(AProyectilAdaptado::StaticClass(), SpawnLocation, SpawnRotation);
+            if (ProyectoAdaptado)
             {
-                GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Aparecio el proyectil"));
+                ProyectoAdaptado->Cargar();
+                ProyectoAdaptado->Disparar(GetActorForwardVector()*10.f); 
+                GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Si funciona, solo que el proyectil no aparece pipipi"));
+
             }
         }
-    }
-    else
-    {
-        GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("no aparecio por alguna razon"));
     }
 }
