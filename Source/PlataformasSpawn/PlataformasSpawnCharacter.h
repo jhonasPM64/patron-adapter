@@ -1,10 +1,11 @@
+
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "ADAPTER_GALAGA_L08Projectile.h"
+#include "Armadura.h"
 #include "PlataformasSpawnCharacter.generated.h"
 
 // Forward declaration de AProyectil
@@ -43,13 +44,12 @@ public:
 	void DispararProyectil();
 
 private:
-	//7.- actualizamos la parte para que el personaje dispare
+	// Clase del proyectil a disparar
 	UPROPERTY(EditDefaultsOnly, Category = "Proyectil")
-	//TSubclassOf<AADAPTER_GALAGA_L08Projectile> ClaseProyectil;
-
-	// End of APawn interface
-	UClass* ClaseProyectil; // Puntero a la clase del proyectil
-
+	UClass* ClaseProyectil;
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 public:
 	APlataformasSpawnCharacter();
 
@@ -57,4 +57,17 @@ public:
 	FORCEINLINE class UCameraComponent* GetSideViewCameraComponent() const { return SideViewCameraComponent; }
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	void IncrementarVelocidad();
+	//void IncrementarSalto();
+protected:
+	void RevertirVelocidad();
+	//void RevertirSalto();
+
+	float VelocidadBase;
+	//float SaltoBase;
+	float MultiplicadorVelocidad;
+	//float MultiplicadorSalto;
+	float DuracionPowerUp;
+public:
+
 };

@@ -13,10 +13,12 @@ class UAdaptadorInterface : public UInterface
 	GENERATED_BODY()
 };
 
-
+/**
+ *
+ */
 class PLATAFORMASSPAWN_API IAdaptadorInterface
 {
 	GENERATED_BODY()
 public:
-	virtual void Cargar() = 0;// 1.- implementamos una funcion virtual paraa acceder a todas las clases
+	virtual void cargar() PURE_VIRTUAL(IAdaptadorInterface::cargar();)// 1.- implementamos una funcion virtual paraa acceder a todas las clases
 };

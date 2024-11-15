@@ -1,5 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserve
-
+// Fill out your copyright notice in the Description page of Project Settings.
 #include "ADAPTER_GALAGA_L08Projectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "UObject/ConstructorHelpers.h"
@@ -10,7 +9,7 @@
 AADAPTER_GALAGA_L08Projectile::AADAPTER_GALAGA_L08Projectile()
 {
 	// Static reference to the mesh to use for the projectile
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> ProjectileMeshAsset(TEXT("StaticMesh'/Game/Geometry/BarrilMesh/TwinStickProjectile.TwinStickProjectile'"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> ProjectileMeshAsset(TEXT("StaticMesh'/Game/Geometry/CocoMesh/CocoStaticMesh.CocoStaticMesh'"));
 
 	// Create mesh component for the projectile sphere
 	ProjectileMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ProjectileMesh0"));

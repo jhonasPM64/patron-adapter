@@ -4,33 +4,31 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "ADAPTER_GALAGA_L08Projectile.h"
 #include "AdaptadorInterface.h"
-#include "ADAPTER_GALAGA_L08Projectile.h" //4.- llamamos a la clase mediante una libreria
 #include "ProyectilAdaptado.generated.h"
 
-UCLASS()	
+UCLASS()
 class PLATAFORMASSPAWN_API AProyectilAdaptado : public AActor, public IAdaptadorInterface
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AProyectilAdaptado();
-
-	 virtual void Cargar() override; // 2.-funcion virtual desde la interfaz
-
-	 void SetVelocidad(float NuevaVelocidad); //estas 2 lineas pueden configurar una velocidad adicional
-	 void Disparar(FVector Direccion);
+public:
+	virtual void cargar() override; // 2.-funcion virtual desde la interf
+	void SetProjectile(AADAPTER_GALAGA_L08Projectile* InProjectile);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	//IAdaptadorInterface* proyectilExterno; // 3.-puntero para 
 	UProjectileMovementComponent* ProjectileMovement; // Asegúrate de que esta línea esté presente
-
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 private:
+	UStaticMeshComponent* StaticMeshComponent;
 	AADAPTER_GALAGA_L08Projectile* ProyectilExterno; //5.- con un puntero de galaga creamos una direccion
 };

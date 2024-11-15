@@ -6,30 +6,38 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/ProjectileMovementComponent.h" 
-#include "proyectil.h"
+#include "ProyectilADaptado.h"
 #include "Engine/World.h"
 #include "Engine/Engine.h"
 #include "UObject/ConstructorHelpers.h"
-#include "ProyectilAdaptado.h"
+#include "TimerManager.h"
+#include "Kismet/GameplayStatics.h"
+
+
+void APlataformasSpawnCharacter::BeginPlay()
+{
+    Super::BeginPlay();
+ 
+}
 
 APlataformasSpawnCharacter::APlataformasSpawnCharacter()
 {
+    PrimaryActorTick.bCanEverTick = true;
+
     // Set size for collision capsule
     GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
-    // Don't rotate when the controller rotates
+    // Don't rotate when the controller rotates.
     bUseControllerRotationPitch = false;
     bUseControllerRotationYaw = false;
     bUseControllerRotationRoll = false;
-
 
     // Create a camera boom attached to the root (capsule)
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
     CameraBoom->SetupAttachment(RootComponent);
     CameraBoom->SetUsingAbsoluteRotation(true); // Rotation of the character should not affect rotation of boom
     CameraBoom->bDoCollisionTest = false;
-    CameraBoom->TargetArmLength = 2000.f;
+    CameraBoom->TargetArmLength = 1500.f;
     CameraBoom->SocketOffset = FVector(0.f, 0.f, 75.f);
     CameraBoom->SetRelativeRotation(FRotator(0.f, 180.f, 0.f));
 
@@ -39,20 +47,54 @@ APlataformasSpawnCharacter::APlataformasSpawnCharacter()
     SideViewCameraComponent->bUsePawnControlRotation = false; // We don't want the controller rotating the camera
 
     // Configure character movement
-    GetCharacterMovement()->bOrientRotationToMovement = true; // Face in the direction we are moving
-    GetCharacterMovement()->RotationRate = FRotator(0.0f, 720.0f, 0.0f); // Rotation rate
+    GetCharacterMovement()->bOrientRotationToMovement = true; // Face in the direction we are moving..
+    GetCharacterMovement()->RotationRate = FRotator(0.0f, 720.0f, 0.0f); // ...at this rotation rate
     GetCharacterMovement()->GravityScale = 2.f;
     GetCharacterMovement()->AirControl = 0.80f;
-    GetCharacterMovement()->JumpZVelocity = 2000.f;
+    //GetCharacterMovement()->JumpZVelocity = 1000.f;
     GetCharacterMovement()->GroundFriction = 3.f;
     GetCharacterMovement()->MaxWalkSpeed = 600.f;
     GetCharacterMovement()->MaxFlySpeed = 600.f;
 
 
-    ClaseProyectil = AProyectilAdaptado::StaticClass(); // Asignar la clase del proyectil
- 
+    ClaseProyectil = AProyectilAdaptado::StaticClass();
+    VelocidadBase = 600.0f;
+    //SaltoBase = 600.0f;
+    //Apublicador* publicador;
+    MultiplicadorVelocidad = 1.5f;
+    //MultiplicadorSalto = 1.3f;
+
+    DuracionPowerUp = 10.0f;
 }
 
+void APlataformasSpawnCharacter::IncrementarVelocidad()
+{
+    GetCharacterMovement()->MaxWalkSpeed = VelocidadBase * MultiplicadorVelocidad;
+
+    FTimerHandle TimerHandle;
+    GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &APlataformasSpawnCharacter::RevertirVelocidad, DuracionPowerUp, false);
+
+}
+/*
+void APlataformasSpawnCharacter::IncrementarSalto()
+{
+    GetCharacterMovement()->JumpZVelocity = SaltoBase * MultiplicadorSalto;
+
+    FTimerHandle TimerHandle;
+    GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &APlataformasSpawnCharacter::RevertirSalto, DuracionPowerUp, false);
+
+}
+*/
+void APlataformasSpawnCharacter::RevertirVelocidad()
+{
+    GetCharacterMovement()->MaxWalkSpeed = VelocidadBase;
+}
+/*
+void APlataformasSpawnCharacter::RevertirSalto()
+{
+    GetCharacterMovement()->JumpZVelocity = SaltoBase;
+}
+*/
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -86,22 +128,19 @@ void APlataformasSpawnCharacter::TouchStopped(const ETouchIndex::Type FingerInde
 
 void APlataformasSpawnCharacter::DispararProyectil()
 {
-    if (ClaseProyectil) 
+    if (ClaseProyectil)
     {
-        FVector SpawnLocation = GetActorLocation() + GetActorForwardVector() * 10.f; 
-        FRotator SpawnRotation = GetActorRotation(); 
+        FVector SpawnLocation = GetActorLocation() + GetActorForwardVector() * 250.f;
+        FRotator SpawnRotation = GetActorRotation();
 
         UWorld* World = GetWorld();
-        if (World!=nullptr)
+        if (World)
         {
-
-            AProyectilAdaptado* ProyectoAdaptado = World->SpawnActor<AProyectilAdaptado>(AProyectilAdaptado::StaticClass(), SpawnLocation, SpawnRotation);
-            if (ProyectoAdaptado)
+            AProyectilAdaptado* ProjectilAdaptado = World->SpawnActor<AProyectilAdaptado>(ClaseProyectil, SpawnLocation, SpawnRotation);
+            if (ProjectilAdaptado)
             {
-                ProyectoAdaptado->Cargar();
-                ProyectoAdaptado->Disparar(GetActorForwardVector()*10.f); 
-                GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Si funciona, solo que el proyectil no aparece pipipi"));
-
+                ProjectilAdaptado->cargar();
+                GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Disparo"));
             }
         }
     }
