@@ -1,11 +1,11 @@
-
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Armadura.h"
+#include "publicador.h"
+#include "PowerUpBase.h"
 #include "PlataformasSpawnCharacter.generated.h"
 
 // Forward declaration de AProyectil
@@ -68,6 +68,4 @@ protected:
 	float MultiplicadorVelocidad;
 	//float MultiplicadorSalto;
 	float DuracionPowerUp;
-public:
-
 };

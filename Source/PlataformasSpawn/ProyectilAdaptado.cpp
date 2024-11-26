@@ -40,7 +40,7 @@ void AProyectilAdaptado::cargar()
 {
 	ProyectilExterno->SetActorLocation(GetActorLocation());
 }
-void AProyectilAdaptado::SetProjectile(AADAPTER_GALAGA_L08Projectile* InProjectile)
-{
+void AProyectilAdaptado::SetProjectile(AADAPTER_GALAGA_L08Projectile* InProjectile) 
+{ 
 	ProyectilExterno = InProjectile;
-}
+} 

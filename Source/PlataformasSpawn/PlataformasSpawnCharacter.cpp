@@ -16,28 +16,43 @@
 
 void APlataformasSpawnCharacter::BeginPlay()
 {
-    Super::BeginPlay();
- 
+   /* Super::BeginPlay();
+        TArray<AActor*> FoundActors;
+        UGameplayStatics::GetAllActorsOfClass(GetWorld(), Apublicador::StaticClass(), FoundActors);
+        if (FoundActors.Num() > 0)
+        {
+            publicador = Cast<Apublicador>(FoundActors[0]);
+            if (publicador)
+            {
+                publicador->agregarObservador(this);
+            }
+            else
+            {
+                if (GEngine)
+                {
+                    GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Fallo al inicializar publicador."));
+                }
+            }
+        }*/
 }
 
 APlataformasSpawnCharacter::APlataformasSpawnCharacter()
 {
-    PrimaryActorTick.bCanEverTick = true;
-
     // Set size for collision capsule
     GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
-    // Don't rotate when the controller rotates.
+    // Don't rotate when the controller rotates
     bUseControllerRotationPitch = false;
     bUseControllerRotationYaw = false;
     bUseControllerRotationRoll = false;
+
 
     // Create a camera boom attached to the root (capsule)
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
     CameraBoom->SetupAttachment(RootComponent);
     CameraBoom->SetUsingAbsoluteRotation(true); // Rotation of the character should not affect rotation of boom
     CameraBoom->bDoCollisionTest = false;
-    CameraBoom->TargetArmLength = 1500.f;
+    CameraBoom->TargetArmLength = 1200.f;
     CameraBoom->SocketOffset = FVector(0.f, 0.f, 75.f);
     CameraBoom->SetRelativeRotation(FRotator(0.f, 180.f, 0.f));
 
@@ -47,11 +62,11 @@ APlataformasSpawnCharacter::APlataformasSpawnCharacter()
     SideViewCameraComponent->bUsePawnControlRotation = false; // We don't want the controller rotating the camera
 
     // Configure character movement
-    GetCharacterMovement()->bOrientRotationToMovement = true; // Face in the direction we are moving..
-    GetCharacterMovement()->RotationRate = FRotator(0.0f, 720.0f, 0.0f); // ...at this rotation rate
+    GetCharacterMovement()->bOrientRotationToMovement = true; // Face in the direction we are moving
+    GetCharacterMovement()->RotationRate = FRotator(0.0f, 720.0f, 0.0f); // Rotation rate
     GetCharacterMovement()->GravityScale = 2.f;
     GetCharacterMovement()->AirControl = 0.80f;
-    //GetCharacterMovement()->JumpZVelocity = 1000.f;
+    GetCharacterMovement()->JumpZVelocity = 2000.f;
     GetCharacterMovement()->GroundFriction = 3.f;
     GetCharacterMovement()->MaxWalkSpeed = 600.f;
     GetCharacterMovement()->MaxFlySpeed = 600.f;
@@ -125,7 +140,13 @@ void APlataformasSpawnCharacter::TouchStopped(const ETouchIndex::Type FingerInde
 {
     StopJumping();
 }
-
+/*
+void APlataformasSpawnCharacter::PostInitializeComponents()
+{
+   Super::PostInitializeComponents();
+   SetActorLocation(FVector(1180.f, -1700.f, 3600.f));
+}
+*/
 void APlataformasSpawnCharacter::DispararProyectil()
 {
     if (ClaseProyectil)
@@ -137,11 +158,11 @@ void APlataformasSpawnCharacter::DispararProyectil()
         if (World)
         {
             AProyectilAdaptado* ProjectilAdaptado = World->SpawnActor<AProyectilAdaptado>(ClaseProyectil, SpawnLocation, SpawnRotation);
-            if (ProjectilAdaptado)
-            {
-                ProjectilAdaptado->cargar();
-                GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Disparo"));
-            }
-        }
+        	if (ProjectilAdaptado)
+			{
+				ProjectilAdaptado->cargar();
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Disparo"));
+			}
+        }    
     }
 }

@@ -27,6 +27,8 @@ void AArmadura::Tick(float DeltaTime)
 
 void AArmadura::Armadura()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Armadura base activada."));
+
 }
 
 

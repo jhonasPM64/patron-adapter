@@ -29,4 +29,30 @@ public:
 	virtual void mover() override;
 	virtual void aparecer(FVector Location) override;
 	virtual void desaparecer() override;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Strategy")
+	AActor* CurrentActionStrategy;
+	void PerformAction();
+	void SetActionStrategy(TSubclassOf<AActor> StrategyClass);
+private:
+	float time;
+	FTimerHandle StrategyTimerHandle;
+	void StartStrategyTimer();
+	void ExecuteStrategyPeriodically();
+	FVector PosicionI;
+	FVector LimiteI;
+	FVector LimiteF;
+	FVector LimiteS;
+	FVector LimiteSS;
+	FVector posicionAc;
+	FVector ObjetivoAc;
+	float Velocidad;
+	bool moverse;
+
+private:
+	TArray<IEnemyActionStrategy*> Estados;
+	int32 EstadoActualIndex;
+	FTimerHandle EstadoTimerHandle;
+
+	void EjecutarEstado();
+	void CargarEstados();
 };

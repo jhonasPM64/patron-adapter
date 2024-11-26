@@ -14,7 +14,7 @@ class UAdaptadorInterface : public UInterface
 };
 
 /**
- *
+ * 
  */
 class PLATAFORMASSPAWN_API IAdaptadorInterface
 {

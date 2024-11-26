@@ -4,17 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "decorator.h"
-#include "Armadura.generated.h"
+#include "EnemyActionStrategy.h"
+#include "estadoOculto.generated.h"
 
 UCLASS()
-class PLATAFORMASSPAWN_API AArmadura : public AActor, public Idecorator
+class PLATAFORMASSPAWN_API AestadoOculto : public AActor, public IEnemyActionStrategy
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AArmadura();
+	AestadoOculto();
 
 protected:
 	// Called when the game starts or when spawned
@@ -24,9 +24,6 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void Armadura() override;
-
-protected:
-	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* ArmaduraMesh;
+public:
+	virtual void InitializeStrategy() override;
 };
