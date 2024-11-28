@@ -61,3 +61,7 @@ void AJumpStrategy::ExecuteAction(AEnemigo_Lobo* Enemy)
     }
 }
 
+void AJumpStrategy::InitializeStrategy()
+{
+}
+

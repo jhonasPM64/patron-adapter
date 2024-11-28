@@ -24,5 +24,5 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	virtual void ExecuteAction(class AEnemigo_Lobo* Enemy) override;
-
+	virtual void InitializeStrategy() override;
 };

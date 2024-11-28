@@ -1,27 +1,27 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+	// Fill out your copyright notice in the Description page of Project Settings.
 
-#pragma once
+	#pragma once
 
-#include "CoreMinimal.h"
-#include "UObject/Interface.h"
-#include "EnemyActionStrategy.generated.h"
+	#include "CoreMinimal.h"
+	#include "UObject/Interface.h"
+	#include "EnemyActionStrategy.generated.h"
 
-// This class does not need to be modified.
-UINTERFACE(MinimalAPI)
-class UEnemyActionStrategy : public UInterface
-{
-	GENERATED_BODY()
-};
+	// This class does not need to be modified.
+	UINTERFACE(MinimalAPI)
+	class UEnemyActionStrategy : public UInterface
+	{
+		GENERATED_BODY()
+	};
 
-/**
- * 
- */
-class PLATAFORMASSPAWN_API IEnemyActionStrategy
-{
-	GENERATED_BODY()
+	/**
+	 * 
+	 */
+	class PLATAFORMASSPAWN_API IEnemyActionStrategy
+	{
+		GENERATED_BODY()
 
-	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
-public:
-	virtual void ExecuteAction(class AEnemigo_Lobo* Enemy) = 0;
-	virtual void InitializeStrategy() = 0;
-};
+		// Add interface functions to this class. This is the class that will be inherited to implement this interface.
+	public:
+		virtual void ExecuteAction(class AEnemigo_Lobo* Enemy) = 0;
+		virtual void InitializeStrategy() = 0;
+	};

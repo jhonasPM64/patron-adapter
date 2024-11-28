@@ -26,6 +26,10 @@ void AestadoVolando::Tick(float DeltaTime)
 
 }
 
+void AestadoVolando::ExecuteAction(AEnemigo_Lobo* Enemy)
+{
+}
+
 void AestadoVolando::InitializeStrategy()
 {
 	if (GEngine)

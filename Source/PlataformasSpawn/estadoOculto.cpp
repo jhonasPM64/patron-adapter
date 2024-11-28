@@ -26,6 +26,10 @@ void AestadoOculto::Tick(float DeltaTime)
 
 }
 
+void AestadoOculto::ExecuteAction(AEnemigo_Lobo* Enemy)
+{
+}
+
 void AestadoOculto::InitializeStrategy()
 {
 	if (GEngine)

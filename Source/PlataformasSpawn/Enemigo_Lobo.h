@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Enemigo.h"
+#include "EnemyActionStrategy.h"
 #include "Enemigo_Lobo.generated.h"
 
 UCLASS()
